@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { selectTasks, selectFilters } from '@/lib/redux/tasks-slice';
 import { TaskCard } from './task-card';
 import { Column, Status } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { AddTaskDialog } from './add-task-dialog';
@@ -47,9 +46,11 @@ export function KanbanColumn({ column }: KanbanColumnProps) {
             {tasks.length}
           </span>
         </div>
-        <Button variant="ghost" size="icon" className='h-6 w-6'>
-          <Plus className="h-4 w-4 text-muted-foreground" />
-        </Button>
+        <AddTaskDialog status={column.id}>
+          <Button variant="ghost" size="icon" className='h-6 w-6'>
+            <Plus className="h-4 w-4 text-muted-foreground" />
+          </Button>
+        </AddTaskDialog>
       </div>
       <div className={cn('h-1 w-full rounded-full', indicator)}></div>
       <Droppable droppableId={column.id}>

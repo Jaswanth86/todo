@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,7 +12,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
   DialogClose,
 } from '@/components/ui/dialog';
@@ -50,7 +49,12 @@ const taskSchema = z.object({
   status: z.enum(statuses),
 });
 
-export function AddTaskDialog() {
+interface AddTaskDialogProps {
+  children: React.ReactNode;
+  status: Status;
+}
+
+export function AddTaskDialog({ children, status }: AddTaskDialogProps) {
   const [open, setOpen] = useState(false);
   const [isSuggesting, setIsSuggesting] = useState(false);
   const dispatch = useDispatch();
@@ -63,9 +67,22 @@ export function AddTaskDialog() {
       description: '',
       category: 'Brainstorming',
       priority: 'Low',
-      status: 'todo',
+      status: status,
     },
   });
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        title: '',
+        description: '',
+        category: 'Brainstorming',
+        priority: 'Low',
+        status: status,
+      });
+    }
+  }, [open, status, form]);
+
 
   const onSubmit = (values: z.infer<typeof taskSchema>) => {
     const newTask: Task = {
@@ -120,11 +137,9 @@ export function AddTaskDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Plus className="h-5 w-5" />
-        </Button>
-      </DialogTrigger>
+      <div onClick={() => setOpen(true)} className='w-full'>
+        {children}
+      </div>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
@@ -230,7 +245,7 @@ export function AddTaskDialog() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a status" />

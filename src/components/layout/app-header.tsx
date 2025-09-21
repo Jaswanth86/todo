@@ -19,10 +19,6 @@ export function AppHeader() {
       </div>
       <div className="flex items-center gap-4">
         <FilterControls />
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Invite
-        </Button>
         <div className="flex -space-x-2 overflow-hidden">
             {PlaceHolderImages.slice(1, 5).map((img, index) => (
                 <Image

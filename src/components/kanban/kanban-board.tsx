@@ -54,7 +54,7 @@ export function KanbanBoard() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {columnOrder.map((columnId) => {
           const column = columns[columnId];
           return <KanbanColumn key={column.id} column={column} />;

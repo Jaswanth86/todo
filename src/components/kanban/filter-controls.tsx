@@ -14,8 +14,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Category, Priority } from '@/lib/types';
+import { Button } from '../ui/button';
+import { Calendar, SlidersHorizontal } from 'lucide-react';
 
-const categories: ('all' | Category)[] = ['all', 'Work', 'Personal', 'Urgent'];
+const categories: ('all' | Category)[] = ['all', 'Brainstorming', 'Research', 'Wireframes', 'Design System'];
 const priorities: ('all' | Priority)[] = ['all', 'Low', 'Medium', 'High'];
 
 export function FilterControls() {
@@ -23,38 +25,28 @@ export function FilterControls() {
   const filters = useSelector(selectFilters);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       <Select
         value={filters.category}
         onValueChange={(value: 'all' | Category) => dispatch(setCategoryFilter(value))}
       >
-        <SelectTrigger className="w-[150px] bg-background">
-          <SelectValue placeholder="Filter by category" />
+        <SelectTrigger className="w-auto gap-2 bg-transparent">
+          <SlidersHorizontal className='h-4 w-4'/>
+          <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent>
-          {categories.map((cat) => (
+          <SelectItem value="all">All Categories</SelectItem>
+          {categories.filter(c => c !== 'all').map((cat) => (
             <SelectItem key={cat} value={cat}>
-              {cat === 'all' ? 'All Categories' : cat}
+              {cat}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
-
-      <Select
-        value={filters.priority}
-        onValueChange={(value: 'all' | Priority) => dispatch(setPriorityFilter(value))}
-      >
-        <SelectTrigger className="w-[150px] bg-background">
-          <SelectValue placeholder="Filter by priority" />
-        </SelectTrigger>
-        <SelectContent>
-          {priorities.map((prio) => (
-            <SelectItem key={prio} value={prio}>
-              {prio === 'all' ? 'All Priorities' : prio}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Button variant="outline" className="gap-2 bg-transparent">
+        <Calendar className='h-4 w-4' />
+        Today
+      </Button>
     </div>
   );
 }

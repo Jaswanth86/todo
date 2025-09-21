@@ -38,7 +38,7 @@ import { Category, Priority, Status, Task } from '@/lib/types';
 import { smartTaskSuggestion } from '@/ai/flows/smart-task-suggestion';
 import { useToast } from '@/hooks/use-toast';
 
-const categories: Category[] = ['Work', 'Personal', 'Urgent'];
+const categories: Category[] = ['Brainstorming', 'Research', 'Wireframes', 'Design System'];
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
 const statuses: Status[] = ['todo', 'inprogress', 'done'];
 
@@ -61,8 +61,8 @@ export function AddTaskDialog() {
     defaultValues: {
       title: '',
       description: '',
-      category: 'Work',
-      priority: 'Medium',
+      category: 'Brainstorming',
+      priority: 'Low',
       status: 'todo',
     },
   });
@@ -71,12 +71,14 @@ export function AddTaskDialog() {
     const newTask: Task = {
       ...values,
       id: `task-${Date.now()}`,
+      comments: 0,
+      files: 0,
     };
     dispatch(addTask(newTask));
     form.reset();
     setOpen(false);
     toast({
-      title: "Task Created",
+      title: 'Task Created',
       description: `"${values.title}" has been added to your board.`,
     });
   };
@@ -119,9 +121,8 @@ export function AddTaskDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Task
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <Plus className="h-5 w-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -157,7 +158,7 @@ export function AddTaskDialog() {
                       type="button"
                       size="icon"
                       variant="ghost"
-                      className="absolute bottom-1 right-1 h-7 w-7 text-accent hover:text-accent"
+                      className="absolute bottom-1 right-1 h-7 w-7 text-primary hover:text-primary"
                       onClick={handleGetSuggestion}
                       disabled={isSuggesting}
                       aria-label="Get AI Suggestions"
@@ -187,7 +188,11 @@ export function AddTaskDialog() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
+                        {categories.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -207,7 +212,11 @@ export function AddTaskDialog() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {priorities.map(prio => <SelectItem key={prio} value={prio}>{prio}</SelectItem>)}
+                        {priorities.map((prio) => (
+                          <SelectItem key={prio} value={prio}>
+                            {prio}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -215,26 +224,32 @@ export function AddTaskDialog() {
                 )}
               />
             </div>
-             <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {statuses.map(st => <SelectItem key={st} value={st}>{st.charAt(0).toUpperCase() + st.slice(1)}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Status</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {statuses.map((st) => (
+                        <SelectItem key={st} value={st}>
+                          {st === 'todo' && 'To Do'}
+                          {st === 'inprogress' && 'In Progress'}
+                          {st === 'done' && 'Done'}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter className="pt-4">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">

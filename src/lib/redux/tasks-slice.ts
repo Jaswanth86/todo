@@ -2,31 +2,33 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
-import { KanbanState, Status, Task } from '../types';
+import { KanbanState, Status, Task, Category, Priority } from '../types';
 
 const initialState: KanbanState = {
   tasks: {
-    'task-1': { id: 'task-1', title: 'Implement UI from Figma', description: 'Replicate the dashboard UI as closely as possible.', status: 'todo', priority: 'High', category: 'Work' },
-    'task-2': { id: 'task-2', title: 'Set up Redux store', description: 'Use Redux for state management and persist state with Local Storage.', status: 'inprogress', priority: 'High', category: 'Work' },
-    'task-3': { id: 'task-3', title: 'Groceries shopping', description: 'Buy milk, bread, and eggs.', status: 'todo', priority: 'Medium', category: 'Personal' },
-    'task-4': { id: 'task-4', title: 'Fix login bug', description: 'Users are reporting issues when logging in with social accounts.', status: 'done', priority: 'High', category: 'Work' },
-    'task-5': { id: 'task-5', title: 'Plan weekend trip', description: 'Research destinations and book accommodation.', status: 'todo', priority: 'Low', category: 'Personal' },
+    'task-1': { id: 'task-1', title: 'Brainstorming', description: "Brainstorming brings team members' diverse experience into play.", status: 'todo', priority: 'Low', category: 'Brainstorming', comments: 12, files: 0 },
+    'task-2': { id: 'task-2', title: 'Research', description: 'User research helps you to create an optimal product for users.', status: 'todo', priority: 'High', category: 'Research', image: 'task-image-1', comments: 10, files: 3 },
+    'task-3': { id: 'task-3', title: 'Wireframes', description: 'Low fidelity wireframes include the most basic content and visuals.', status: 'todo', priority: 'High', category: 'Wireframes', comments: 5, files: 2 },
+    'task-4': { id: 'task-4', title: 'Brainstorming', description: "Brainstorming brings team members' diverse experience into play.", status: 'inprogress', priority: 'Low', category: 'Brainstorming', comments: 8, files: 0 },
+    'task-5': { id: 'task-5', title: 'Brainstorming', description: "Brainstorming brings team members' diverse experience into play.", status: 'inprogress', priority: 'Low', category: 'Brainstorming', comments: 12, files: 5 },
+    'task-6': { id: 'task-6', title: 'Brainstorming', description: "Brainstorming brings team members' diverse experience into play.", status: 'done', priority: 'Low', category: 'Brainstorming', comments: 12, files: 0 },
+    'task-7': { id: 'task-7', title: 'Design System', description: 'It just needs to adapt the UI from what you did before.', status: 'done', priority: 'Low', category: 'Design System', image: 'task-image-2', comments: 12, files: 15 },
   },
   columns: {
     'todo': {
       id: 'todo',
       title: 'To Do',
-      taskIds: ['task-1', 'task-3', 'task-5'],
+      taskIds: ['task-1', 'task-2', 'task-3'],
     },
     'inprogress': {
       id: 'inprogress',
-      title: 'In Progress',
-      taskIds: ['task-2'],
+      title: 'On Progress',
+      taskIds: ['task-4', 'task-5'],
     },
     'done': {
       id: 'done',
       title: 'Done',
-      taskIds: ['task-4'],
+      taskIds: ['task-6', 'task-7'],
     },
   },
   columnOrder: ['todo', 'inprogress', 'done'],
@@ -54,13 +56,8 @@ const tasksSlice = createSlice({
     }>) => {
       const { sourceColumnId, destColumnId, sourceIndex, destIndex, taskId } = action.payload;
 
-      // Remove from source column
       state.columns[sourceColumnId].taskIds.splice(sourceIndex, 1);
-      
-      // Add to destination column
       state.columns[destColumnId].taskIds.splice(destIndex, 0, taskId);
-
-      // Update task status
       state.tasks[taskId].status = destColumnId;
     },
     reorderTaskInColumn: (state, action: PayloadAction<{
@@ -74,10 +71,10 @@ const tasksSlice = createSlice({
         column.taskIds.splice(sourceIndex, 1);
         column.taskIds.splice(destIndex, 0, taskId);
     },
-    setCategoryFilter: (state, action: PayloadAction<'all' | 'Work' | 'Personal' | 'Urgent'>) => {
+    setCategoryFilter: (state, action: PayloadAction<'all' | Category>) => {
       state.filters.category = action.payload;
     },
-    setPriorityFilter: (state, action: PayloadAction<'all' | 'Low' | 'Medium' | 'High'>) => {
+    setPriorityFilter: (state, action: PayloadAction<'all' | Priority>) => {
       state.filters.priority = action.payload;
     },
   },

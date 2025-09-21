@@ -2,7 +2,7 @@ export type Status = 'todo' | 'inprogress' | 'done';
 
 export type Priority = 'Low' | 'Medium' | 'High';
 
-export type Category = 'Work' | 'Personal' | 'Urgent';
+export type Category = 'Brainstorming' | 'Research' | 'Wireframes' | 'Design System';
 
 export interface Task {
   id: string;
@@ -11,6 +11,9 @@ export interface Task {
   status: Status;
   priority: Priority;
   category: Category;
+  image?: string;
+  comments: number;
+  files: number;
 }
 
 export interface Column {

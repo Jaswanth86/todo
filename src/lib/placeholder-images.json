@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "user-1",
+      "description": "User avatar 1",
+      "imageUrl": "https://picsum.photos/seed/1/40/40",
+      "imageHint": "person face"
+    },
+    {
+      "id": "user-2",
+      "description": "User avatar 2",
+      "imageUrl": "https://picsum.photos/seed/2/40/40",
+      "imageHint": "man face"
+    },
+    {
+      "id": "user-3",
+      "description": "User avatar 3",
+      "imageUrl": "https://picsum.photos/seed/3/40/40",
+      "imageHint": "woman face"
+    },
+    {
+      "id": "user-4",
+      "description": "User avatar 4",
+      "imageUrl": "https://picsum.photos/seed/4/40/40",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "user-5",
+      "description": "User avatar 5",
+      "imageUrl": "https://picsum.photos/seed/5/40/40",
+      "imageHint": "man portrait"
+    },
+     {
+      "id": "task-image-1",
+      "description": "Task image for user research",
+      "imageUrl": "https://picsum.photos/seed/6/400/200",
+      "imageHint": "user research"
+    },
+    {
+      "id": "task-image-2",
+      "description": "Task image for design system",
+      "imageUrl": "https://picsum.photos/seed/7/400/200",
+      "imageHint": "design system"
+    }
+  ]
 }

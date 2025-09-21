@@ -1,6 +1,6 @@
 'use client';
 
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable } from '@hello-pangea/dnd';
 import { useSelector } from 'react-redux';
 import { selectTasks, selectFilters } from '@/lib/redux/tasks-slice';
 import { TaskCard } from './task-card';

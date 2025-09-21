@@ -1,6 +1,6 @@
 'use client';
 
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { Task, Priority } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
